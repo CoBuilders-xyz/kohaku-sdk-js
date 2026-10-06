@@ -1,1 +1,1 @@
-export { init } from '#tornadocash-runtime';
+export { loadTornadoCash } from '#tornadocash-runtime';

@@ -1,16 +1,23 @@
-let initialization: Promise<void> | undefined;
+type Runtime = typeof import('@cobuilders/kohaku-tornadocash-wasm/web');
 
-async function initialize(): Promise<void> {
+let initialization: Promise<Runtime> | undefined;
+
+async function initialize(): Promise<Runtime> {
   const bindings = await import('@cobuilders/kohaku-tornadocash-wasm/web');
   await bindings.default();
+  return bindings;
 }
 
-/** Load and initialize Tornado Cash WASM. Safe to call more than once. */
-export function init(): Promise<void> {
+export function ensureRuntime(): Promise<Runtime> {
   initialization ??= initialize().catch((error) => {
     initialization = undefined;
     throw error;
   });
 
   return initialization;
+}
+
+/** Preload Tornado Cash WASM. Safe to call more than once. */
+export async function loadTornadoCash(): Promise<void> {
+  await ensureRuntime();
 }

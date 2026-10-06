@@ -4,21 +4,25 @@ JavaScript and TypeScript SDK for Kohaku tools, published as a single package:
 `@cobuilders/kohaku-sdk`.
 
 The initial module lives in `src/tornadocash/`, with its public entry point at
-`@cobuilders/kohaku-sdk/tornadocash`. It currently exports `init()`; the note API
-will be added next.
+`@cobuilders/kohaku-sdk/tornadocash`. It currently exports `loadTornadoCash()`;
+the note API will be added next.
 
-Initialize Tornado Cash in Node or a browser:
+Preload Tornado Cash in Node or a browser:
 
 ```ts
-import { init } from '@cobuilders/kohaku-sdk/tornadocash';
+import { loadTornadoCash } from '@cobuilders/kohaku-sdk/tornadocash';
 
-await init();
+await loadTornadoCash();
 ```
 
 The SDK selects the Node or web bindings using conditional package imports.
 WASM loads on the first call. Node caches the imported module. In browsers, the
 SDK shares one initialization promise between calls and allows a later retry
 if the WASM download fails.
+
+The internal `ensureRuntime()` returns initialized bindings. The upcoming
+`Note.create()` and `Note.parse()` will use it automatically, making explicit
+preloading optional.
 
 Browser apps need a bundler that resolves package imports and serves the
 bindings' generated WASM URL, or an import map and HTTP server.

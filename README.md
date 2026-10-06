@@ -32,6 +32,12 @@ for `nullifier`, `secret`, `symbol`, `amount`, and `chainId`.
 `note.toString()` formats it as a standard Tornado note.
 `Note.parse(text)` recovers a note from that format.
 
+The note also exposes synchronous operations backed by WASM:
+
+- `preimage()`: the 62-byte nullifier and secret concatenation as hex.
+- `commitment()`: the note's commitment as hex.
+- `nullifierHash()`: the nullifier hash as hex; this does not check whether the note has been spent.
+
 Optionally preload Tornado Cash:
 
 ```ts

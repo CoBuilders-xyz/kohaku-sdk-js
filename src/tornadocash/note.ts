@@ -35,6 +35,18 @@ export class Note {
     return this.bindings.toString();
   }
 
+  preimage(): Hex {
+    return this.bindings.preimage();
+  }
+
+  commitment(): Hex {
+    return this.bindings.commitment();
+  }
+
+  nullifierHash(): Hex {
+    return this.bindings.nullifierHash();
+  }
+
   get nullifier(): Hex {
     return this.bindings.nullifier;
   }

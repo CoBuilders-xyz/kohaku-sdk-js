@@ -1,0 +1,37 @@
+{
+  "name": "@cobuilders/kohaku-sdk",
+  "version": "0.0.0",
+  "private": true,
+  "description": "JavaScript and TypeScript SDK for Kohaku tools",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./tornadocash": {
+      "types": "./dist/tornadocash/index.d.ts",
+      "import": "./dist/tornadocash/index.js"
+    }
+  },
+  "imports": {
+    "#tornadocash-runtime": {
+      "node": "./dist/tornadocash/runtime.node.js",
+      "default": "./dist/tornadocash/runtime.web.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && vitest run"
+  },
+  "dependencies": {
+    "@cobuilders/kohaku-tornadocash-wasm": "0.1.0-dev.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.4",
+    "@vitest/browser-playwright": "5.0.3",
+    "playwright": "1.63.0",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
+  }
+}

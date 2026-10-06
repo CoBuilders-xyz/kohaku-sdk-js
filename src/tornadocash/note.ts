@@ -26,6 +26,15 @@ export class Note {
     return new Note(bindings);
   }
 
+  static async parse(text: string): Promise<Note> {
+    const runtime = await ensureRuntime();
+    return new Note(runtime.NoteString.parse(text));
+  }
+
+  toString(): string {
+    return this.bindings.toString();
+  }
+
   get nullifier(): Hex {
     return this.bindings.nullifier;
   }

@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 import { Note } from '@cobuilders/kohaku-sdk/tornadocash';
 
-test('creates a note without explicit preloading', async () => {
+test('creates, formats, and recovers a note without explicit preloading', async () => {
   const params = {
     nullifier: `0x${'01'.repeat(31)}`,
     secret: `0x${'02'.repeat(31)}`,
@@ -11,6 +11,11 @@ test('creates a note without explicit preloading', async () => {
   } as const;
 
   const note = await Note.create(params);
+  const text = note.toString();
+  const recovered = await Note.parse(text);
 
   expect(note).toMatchObject(params);
+  expect(text).toBe(`tornado-eth-0.1-1-0x${'01'.repeat(31)}${'02'.repeat(31)}`);
+  expect(recovered).toMatchObject(params);
+  expect(recovered.toString()).toBe(text);
 });

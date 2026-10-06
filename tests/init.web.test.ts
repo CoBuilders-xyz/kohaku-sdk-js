@@ -1,0 +1,6 @@
+import { expect, test } from 'vitest';
+import { init } from '@cobuilders/kohaku-sdk/tornadocash';
+
+test('loads in a browser', async () => {
+  await expect(init()).resolves.toBeUndefined();
+});

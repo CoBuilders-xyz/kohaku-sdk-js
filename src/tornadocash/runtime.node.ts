@@ -1,3 +1,5 @@
+export type { Hex, NoteString } from '@cobuilders/kohaku-tornadocash-wasm/node';
+
 export function ensureRuntime() {
   return import('@cobuilders/kohaku-tornadocash-wasm/node');
 }

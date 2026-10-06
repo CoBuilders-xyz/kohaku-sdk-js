@@ -1,3 +1,5 @@
+export type { Hex, NoteString } from '@cobuilders/kohaku-tornadocash-wasm/web';
+
 type Runtime = typeof import('@cobuilders/kohaku-tornadocash-wasm/web');
 
 let initialization: Promise<Runtime> | undefined;

@@ -8,13 +8,13 @@ export default defineConfig({
         test: {
           name: 'node',
           environment: 'node',
-          include: ['tests/*.node.test.ts'],
+          include: ['tests/*.node.test.ts', 'tests/note.test.ts'],
         },
       },
       {
         test: {
           name: 'browser',
-          include: ['tests/*.web.test.ts'],
+          include: ['tests/*.web.test.ts', 'tests/note.test.ts'],
           browser: {
             enabled: true,
             headless: true,

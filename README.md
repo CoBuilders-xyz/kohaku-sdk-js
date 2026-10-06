@@ -4,10 +4,29 @@ JavaScript and TypeScript SDK for Kohaku tools, published as a single package:
 `@cobuilders/kohaku-sdk`.
 
 The initial module lives in `src/tornadocash/`, with its public entry point at
-`@cobuilders/kohaku-sdk/tornadocash`. It currently exports `loadTornadoCash()`;
-the note API will be added next.
+`@cobuilders/kohaku-sdk/tornadocash`. It exports `Note` and `loadTornadoCash()`.
 
-Preload Tornado Cash in Node or a browser:
+Create a note in Node or a browser:
+
+```ts
+import { Note } from '@cobuilders/kohaku-sdk/tornadocash';
+
+// Fixed secrets for demonstration only.
+const note = await Note.create({
+  nullifier: `0x${'01'.repeat(31)}`,
+  secret: `0x${'02'.repeat(31)}`,
+  symbol: 'eth',
+  amount: '0.1',
+  chainId: 1n,
+});
+
+console.log(note.symbol, note.amount, note.chainId);
+```
+
+`Note.create()` loads WASM automatically. The note exposes read-only getters
+for `nullifier`, `secret`, `symbol`, `amount`, and `chainId`.
+
+Optionally preload Tornado Cash:
 
 ```ts
 import { loadTornadoCash } from '@cobuilders/kohaku-sdk/tornadocash';
@@ -20,9 +39,8 @@ WASM loads on the first call. Node caches the imported module. In browsers, the
 SDK shares one initialization promise between calls and allows a later retry
 if the WASM download fails.
 
-The internal `ensureRuntime()` returns initialized bindings. The upcoming
-`Note.create()` and `Note.parse()` will use it automatically, making explicit
-preloading optional.
+The internal `ensureRuntime()` returns initialized bindings. `Note.create()`
+uses it automatically; all notes share the same runtime.
 
 Browser apps need a bundler that resolves package imports and serves the
 bindings' generated WASM URL, or an import map and HTTP server.
@@ -35,7 +53,7 @@ npm run typecheck
 npm run build
 ```
 
-Vitest runs one basic loading test in Node and one in real Chromium. Browser
+Vitest checks loading and note creation in Node and real Chromium. Browser
 serving and lifecycle are managed by Vitest's Playwright provider.
 
 ```sh
@@ -46,9 +64,8 @@ npm test
 The SDK pins `@cobuilders/kohaku-tornadocash-wasm` to `0.1.0-dev.0`. Binding
 updates will be explicit and tested; the SDK has its own versioning.
 
-Next step: the note API. The first functional milestone is creating, formatting,
-and recovering a note using only the SDK, with tests covering the complete flow.
-Random generation will follow.
+Next step: formatting and recovering a note using only the SDK, with tests
+covering the complete flow. Random generation will follow.
 
 The package is private during setup. Distribution licensing is pending
 clarification with Robert.
